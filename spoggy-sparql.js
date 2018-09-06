@@ -13,36 +13,60 @@ class SpoggySparql extends LitElement {
   static get properties() {
     return {
       foo: String,
-      whales: Number
+      whales: Number,
+      options: Object,
+      query: String,
+      url: String
     }
   }
 
   constructor() {
     super();
+      var app = this;
     this.foo = 'foo';
+
+    this.url = "http://127.0.0.1:3030/ds/sparql";
+    this.query = "SELECT ?subject ?predicate ?object WHERE {   ?subject ?predicate ?object } LIMIT 25";
+    let output = "json";
+    this.options = {query: this.query, output: output};
 
     this.renderComplete.then(()=>{
       var btn = this._root.querySelector('#btn');
-      console.log(btn);
+        btn.addEventListener('click', async (e) => {
 
-      btn.addEventListener('click', async (e) => {
-        //  this.whales++;
         console.log("click");
         await this.renderComplete;
         //  this.dispatchEvent(new CustomEvent('whales', {detail: {whales: this.whales}}))
 
-      //  let request = ironAjaxElement.generateRequest();
-      let request = this._root.querySelector('#requeteTest').generateRequest();
-        request.completes.then(function(req) {
+        console.log(this.options);
+        let requeteTest = this._root.querySelector('#requeteTest');
+        requeteTest.params = this.options;
+        requeteTest.url = this.url;
+        console.log(requeteTest);
+        //  let request = ironAjaxElement.generateRequest();
+        let request = requeteTest.generateRequest();
+        console.log(requeteTest);
+        request.completes.then(function(req, resp) {
           // succesful request, argument is iron-request element
           //  ...
-          console.log("ok")
+          console.log("ok");
+          console.log(resp);
+          var data = req.response;
+          console.log(data);
+          let response = JSON.parse(data);
+          console.log(response)
+          console.log("exp")
+          //app.exploreFuseki(endpoint)
+          console.log("exp2")
         }, function(rejected) {
           // failed request, argument is an object
           let req = rejected.request;
           let error = rejected.error;
           //...
-          console.log("error")
+          console.log(rejected);
+          console.log("error");
+          console.log(req);
+          console.log(error);
         }
       )
     });
@@ -52,7 +76,7 @@ class SpoggySparql extends LitElement {
 }
 
 // Render method should return a `TemplateResult` using the provided lit-html `html` tag function
-_render({foo, whales}) {
+_render({foo, whales, options, query, url}) {
   return html`
   <style>
   :host {
@@ -66,16 +90,20 @@ _render({foo, whales}) {
   <div>whales: ${'🐳'.repeat(whales)}</div>
   <slot></slot>
 
-  <paper-input label="Requete"></paper-input>
+  <paper-input label="Requete" value="${query}"></paper-input>
   <paper-button id="btn" raised>Valider</paper-button>
+
+  <!--  params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'-->
+  <!--on-response="handleResponse"
+  params=${options}-->
   <iron-ajax
   id="requeteTest"
-  url="http://127.0.0.1"
-  params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+  url=""
   handle-as="json"
-  on-response="handleResponse"
-  debounce-duration="300"></iron-ajax>
-
+  debounce-duration="300"
+  crossorigin>
+  </iron-ajax>
+  <!--/sparql-->
   `;
 
 
