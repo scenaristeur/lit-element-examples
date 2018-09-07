@@ -1,7 +1,7 @@
 import {LitElement, html} from '@polymer/lit-element';
 import { DataSet, Network } from 'vis/index-network';
 import '@polymer/paper-button/paper-button.js';
-/*import 'vis/dist/vis-network.min.css';*/
+import 'vis/dist/vis-network.min.css';*/
 
 class SpoggyGraph extends LitElement {
 
@@ -54,24 +54,24 @@ var edges = new DataSet([
 
 
 
+/*
+var myStylesheets = ['/node_modules/vis/dist/vis.css', '/node_modules/vis/dist/vis-network.min.css'];
 
-/*var myStylesheets = ['/node_modules/vis/dist/vis.css'];
-
-async function loadStyles(stylesheets) {
+async function loadStyles(stylesheets, root) {
   let arr = await Promise.all(stylesheets.map(url => fetch(url)))
   arr = await Promise.all(arr.map(url => url.text()))
   const style = document.createElement('style')
   style.textContent = arr.reduce(
     (prev, fileContents) => prev + fileContents, ''
   )
-  document.head.appendChild(style);
+  root.appendChild(style);
   // Do whatever now
   console.log("charge");
+  console.log();
 }*/
 
 
 this.renderComplete.then(()=>{
-  var con = document.getElementById('mynetwork');
 
   var container = this._root.querySelector('#mynetwork');
 
@@ -93,7 +93,7 @@ this.renderComplete.then(()=>{
 
 
 
-  //loadStyles(myStylesheets);
+//loadStyles(myStylesheets, this._root);
 
   // create a network
   //

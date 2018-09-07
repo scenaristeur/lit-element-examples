@@ -24,6 +24,8 @@
     "vis": "^4.21.0"
   },
   "devDependencies": {
+    "file-loader": "^2.0.0",
+    "image-webpack-loader": "^4.3.1",
     "polyserve": "^0.27.12",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
