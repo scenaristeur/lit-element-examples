@@ -1,7 +1,7 @@
 //webpack.conf.js
 module.exports = {
   entry: {
-    app: ['./new-marquee.js', './my-element.js', './spoggy-accueil', './spoggy-sparql'],
+    app: ['./new-marquee.js', './my-element.js', './spoggy-accueil.js', './spoggy-sparql.js', './spoggy-graph.js'],
   //  vendors: ['react']
   },
   output: {
